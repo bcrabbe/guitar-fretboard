@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, minimum-scale=1, initial-scale=1, user-scalable=yes">
+
+    <title>guitar-fret-board demo</title>
+
+    <script src="../../webcomponentsjs/webcomponents-loader.js"></script>
+
+    <link rel="import" href="../../iron-demo-helpers/demo-pages-shared-styles.html">
+    <link rel="import" href="../../iron-demo-helpers/demo-snippet.html">
+    <link rel="import" href="../guitar-fret-board.html">
+
+    <custom-style>
+      <style is="custom-style" include="demo-pages-shared-styles">
+      </style>
+    </custom-style>
+  </head>
+  <body>
+    <div class="vertical-section-container centered">
+      <h3>Basic guitar-fret-board demo</h3>
+      <demo-snippet>
+        <template>
+          <guitar-fret-board chord='{
+			     "str6":{"fret":"X"},
+			     "str5":{"fret":3},
+			     "str4":{"fret":2},
+			     "str3":{"fret":0},
+			     "str2":{"fret":1},
+			     "str1":{"fret":0}
+			     }'
+			     ></guitar-fret-board>
+        </template>
+      </demo-snippet>
+    </div>
+  </body>
+</html>

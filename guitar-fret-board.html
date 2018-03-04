@@ -1,0 +1,116 @@
+<link rel="import" href="../polymer/polymer-element.html">
+
+<dom-module id="guitar-fret-board">
+  <template>
+    <style>
+      :host {
+        display: block;
+      }
+    </style>
+    
+    <h2>hello [[prop1]]</h2>
+    <div width="[[width]" height="[[height]">
+      <svg xmlns="http://www.w3.org/2000/svg">
+	<g>
+	  <title>background</title>
+	  <rect fill="#fff" id="canvas_background" height="100%" width="100%" y="-1" x="-1"/>
+	  <g display="none" overflow="visible" y="0" x="0" height="100%" width="100%" id="canvasGrid">
+	    <rect fill="url(#gridpattern)" stroke-width="0" y="0" x="0" height="100%" width="100%"/>
+	  </g>
+	</g>
+	<g>
+	  <title>vertical</title>
+	  <line stroke-linecap="undefined" stroke-linejoin="undefined"
+		id="svg_1" y2="5%" x2="5%" y1="95%" x1="5%"
+	      stroke-width="1.5" stroke="#000" fill="none"/>
+	  <line stroke-linecap="undefined" stroke-linejoin="undefined"
+		id="svg_2" y2="5%" x2="23%" y1="95%" x1="23%"
+		stroke-width="1.5" stroke="#000" fill="none"/>
+	  <line stroke-linecap="undefined" stroke-linejoin="undefined"
+		id="svg_3" y2="5%" x2="41%" y1="95%" x1="41%"
+		stroke-width="1.5" stroke="#000" fill="none"/>
+	  <line stroke-linecap="undefined" stroke-linejoin="undefined"
+		id="svg_4" y2="5%" x2="59%" y1="95%" x1="59%"
+		stroke-width="1.5" stroke="#000" fill="none"/>
+	  <line stroke-linecap="undefined" stroke-linejoin="undefined"
+		id="svg_5" y2="5%" x2="77%" y1="95%" x1="77%"
+		stroke-width="1.5" stroke="#000" fill="none"/>
+	  <line stroke-linecap="undefined" stroke-linejoin="undefined"
+		id="svg_6" y2="5%" x2="95%" y1="95%" x1="95%"
+		stroke-width="1.5" stroke="#000" fill="none"/>
+	  <title> horizontal</title>
+	  <line stroke-linecap="undefined" stroke-linejoin="undefined"
+		id="top_line" y2="5%" x2="5%" y1="5%" x1="95%"
+		stroke-width="1.5" stroke="#000" fill="none"/>
+	  <line stroke-linecap="undefined" stroke-linejoin="undefined"
+		id="bottom_line" y2="95%" x2="5%" y1="95%" x1="95%"
+		stroke-width="1.5" stroke="#000" fill="none"/>
+	</g>
+      </svg>
+    </div>  
+  </template>
+
+  <script>
+    /**
+     * `guitar-fret-board`
+     * a guitar fret board graphic for displaying chord shapes
+     *
+     * @customElement
+     * @polymer
+     * @demo demo/index.html
+     */
+    class GuitarFretBoard extends Polymer.Element {
+
+	static get is() { return 'guitar-fret-board'; }
+	
+	constructor() {
+	    super();
+	}
+	
+	ready() {
+	    super.ready();
+	    console.log("ready");
+	    console.log(this.chord);
+	    this._findNumberOfFrets(this.chord);
+	}
+	
+	_findNumberOfFrets(chord) {
+	    var minFret=0, maxFret=1;
+	    for (var string in chord) {
+		if (chord.hasOwnProperty(string)) {
+		    if(chord[string].fret!="X") {
+			maxFret = chord[string].fret > maxFret ?
+			    chord[string].fret : maxFret;
+			minFret = chord[string].fret < minFret ?
+			    chord[string].fret : minFret;
+		    }
+		}
+	    }
+	    console.log(minFret, maxFret);
+	}
+	
+	static get properties() {
+	    return {
+		chord: {
+		    type: Object
+		},
+		width: {
+		    type: Number,
+		    value: function() {
+			return this.offsetWidth;
+		    }
+		},
+		height: {
+		    type: Number,
+		    value: function() {
+			return this.offsetHeight;
+		    }
+		}
+	
+	    };
+	}
+    }
+    
+    window.customElements.define(GuitarFretBoard.is, GuitarFretBoard);
+  </script>
+</dom-module>

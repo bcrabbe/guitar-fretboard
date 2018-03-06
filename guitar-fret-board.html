@@ -9,7 +9,7 @@
     </style>
     
     <h2>hello [[prop1]]</h2>
-    <div width="[[width]" height="[[height]">
+    <div>
       <svg xmlns="http://www.w3.org/2000/svg">
 	<g>
 	  <title>background</title>
@@ -20,30 +20,35 @@
 	</g>
 	<g id="fretBoardSvg">
 	  <title>vertical</title>
-	  <line stroke-linecap="undefined" stroke-linejoin="undefined"
-		id="str6" y2="1%" x2="5%" y1="95%" x1="5%"
-	      stroke-width="1.5" stroke="#000" fill="none"/>
-	  <line stroke-linecap="undefined" stroke-linejoin="undefined"
-		id="str5" y2="1%" x2="23%" y1="95%" x1="23%"
+	  <line id="str6" y1$="[[_topFretY]]" y2$="[[_bottomFretY]]"
+		x2="5%" x1="5%"
+		stroke-width="1.5" stroke-linecap="undefined"
+		stroke-linejoin="undefined" stroke="#000"/>
+	  <line id="str5" y1$="[[_topFretY]]" y2$="[[_bottomFretY]]" 
+		x2="23%" x1="23%"
 		stroke-width="1.5" stroke="#000" fill="none"/>
-	  <line stroke-linecap="undefined" stroke-linejoin="undefined"
-		id="str4" y2="1%" x2="41%" y1="95%" x1="41%"
+	  <line id="str4" y2$="[[_bottomFretY]]" y1$="[[_topFretY]]"
+		x2="41%" x1="41%"
+		stroke-linecap="undefined" stroke-linejoin="undefined"
 		stroke-width="1.5" stroke="#000" fill="none"/>
-	  <line stroke-linecap="undefined" stroke-linejoin="undefined"
-		id="str3" y2="1%" x2="59%" y1="95%" x1="59%"
+	  <line id="str3" y2$="[[_topFretY]]" y1$="[[_bottomFretY]]"
+		x2="59%" x1="59%"
+		stroke-linecap="undefined" stroke-linejoin="undefined"
 		stroke-width="1.5" stroke="#000" fill="none"/>
-	  <line stroke-linecap="undefined" stroke-linejoin="undefined"
-		id="str2" y2="1%" x2="77%" y1="95%" x1="77%"
+	  <line id="str2" y2$="[[_topFretY]]" y1$="[[_bottomFretY]]"
+		x1="77%"  x2="77%"
+		stroke-linecap="undefined" stroke-linejoin="undefined"
 		stroke-width="1.5" stroke="#000" fill="none"/>
-	  <line stroke-linecap="undefined" stroke-linejoin="undefined"
-		id="str1" y2="1%" x2="95%" y1="95%" x1="95%"
+	  <line id="str1" y2$="[[_topFretY]]" y1$="[[_bottomFretY]]"
+		x1="95%" x2="95%" 
+		stroke-linecap="undefined" stroke-linejoin="undefined"
 		stroke-width="1.5" stroke="#000" fill="none"/>
 	  <title> horizontal</title>
 	  <line stroke-linecap="undefined" stroke-linejoin="undefined"
-		id="topFret" y2="3%" x2="5%" y1="3%" x1="95%"
+		id="topFret" y2$="[[_topFretY]]" x2="4.8%" y1$="[[_topFretY]]" x1="95.2%"
 		stroke-width="1.5" stroke="#000" fill="none"/>
 	  <line stroke-linecap="undefined" stroke-linejoin="undefined"
-		id="bottomFret" y2="95%" x2="5%" y1="95%" x1="95%"
+		id="bottomFret"  y2$="[[_bottomFretY]]" x2="5%" y1$="[[_bottomFretY]]" x1="95%"
 		stroke-width="1.5" stroke="#000" fill="none"/>
 	</g>
       </svg>
@@ -72,11 +77,32 @@
 	    console.log("ready");
 	    console.log(this.chord);
 	    this._drawFretBoard();
+	    this._drawNotes(this.chord);
 	    
 	}
 
-	_drawNotes() {
-	    
+	_drawNotes(chord) {
+	    for (var string in chord) {
+		if (chord.hasOwnProperty(string)) {
+		    var fret = chord[string].fret;
+		    if(fret==="X") {
+			this._markStringNotPlayed(string);
+		    } else {
+			
+		    }
+		}
+	    }
+	}
+
+	_markStringNotPlayed(string) {
+	    var text = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+	    text.setAttribute('x', parseFloat(this.$[string].getAttribute('x1')) -
+			      1.4 + '%');
+	    text.setAttribute('y', parseFloat(this.$.topFret.getAttribute('y1')) -
+			      3 + '%');//adjust for width of text
+		text.setAttribute('fill', '#000');
+	    text.textContent = "X";
+	    this.$.fretBoardSvg.appendChild(text);
 	}
 	
 	_drawFretBoard() {
@@ -84,16 +110,23 @@
 	    console.log(minFret, maxFret);
 	    if(minFret===0) { this._drawZeroFret()};
 
-	    for(var fret=minFret+1; fret<maxFret; ++fret){
+	    for(var fret=minFret+1; fret<maxFret; ++fret) {
 		var newFret = this.$.bottomFret.cloneNode(false);
 		newFret.setAttribute("id", "fret"+fret);
-		var yPos = ((fret-minFret)/maxFret)*0.95*100;
-		newFret.setAttribute("y1", ""+yPos+"%");
-		newFret.setAttribute("y2", ""+yPos+"%");		
+		var yPos = ((fret-minFret)/maxFret)*
+		    (parseFloat(this._bottomFretY)-parseFloat(this._topFretY))+
+		    parseFloat(this._topFretY) + '%';
+		newFret.setAttribute("y1", yPos);
+		newFret.setAttribute("y2", yPos);		
 		this.$.fretBoardSvg.insertBefore(newFret, this.$.bottomFret);
 	    }
 	}
 
+	// adds two string of the the form a% b% -> a+b% 
+	_addPercentStrings(str1, str2) {
+	    return parseFloat(str1) + parseFloat(str2) + '%';
+	}
+	
 	_drawZeroFret() {
 	    this.$.topFret.setAttribute("stroke-width", 5);
 	}
@@ -129,6 +162,14 @@
 		    value: function() {
 			return this.offsetHeight;
 		    }
+		},
+		_topFretY: {
+		    type: String,
+		    value: "10%"
+		},
+		_bottomFretY: {
+		    type: String,
+		    value: "95%"
 		}
 	
 	    };

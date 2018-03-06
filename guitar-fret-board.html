@@ -18,32 +18,32 @@
 	    <rect fill="url(#gridpattern)" stroke-width="0" y="0" x="0" height="100%" width="100%"/>
 	  </g>
 	</g>
-	<g>
+	<g id="fretBoardSvg">
 	  <title>vertical</title>
 	  <line stroke-linecap="undefined" stroke-linejoin="undefined"
-		id="svg_1" y2="5%" x2="5%" y1="95%" x1="5%"
+		id="str6" y2="1%" x2="5%" y1="95%" x1="5%"
 	      stroke-width="1.5" stroke="#000" fill="none"/>
 	  <line stroke-linecap="undefined" stroke-linejoin="undefined"
-		id="svg_2" y2="5%" x2="23%" y1="95%" x1="23%"
+		id="str5" y2="1%" x2="23%" y1="95%" x1="23%"
 		stroke-width="1.5" stroke="#000" fill="none"/>
 	  <line stroke-linecap="undefined" stroke-linejoin="undefined"
-		id="svg_3" y2="5%" x2="41%" y1="95%" x1="41%"
+		id="str4" y2="1%" x2="41%" y1="95%" x1="41%"
 		stroke-width="1.5" stroke="#000" fill="none"/>
 	  <line stroke-linecap="undefined" stroke-linejoin="undefined"
-		id="svg_4" y2="5%" x2="59%" y1="95%" x1="59%"
+		id="str3" y2="1%" x2="59%" y1="95%" x1="59%"
 		stroke-width="1.5" stroke="#000" fill="none"/>
 	  <line stroke-linecap="undefined" stroke-linejoin="undefined"
-		id="svg_5" y2="5%" x2="77%" y1="95%" x1="77%"
+		id="str2" y2="1%" x2="77%" y1="95%" x1="77%"
 		stroke-width="1.5" stroke="#000" fill="none"/>
 	  <line stroke-linecap="undefined" stroke-linejoin="undefined"
-		id="svg_6" y2="5%" x2="95%" y1="95%" x1="95%"
+		id="str1" y2="1%" x2="95%" y1="95%" x1="95%"
 		stroke-width="1.5" stroke="#000" fill="none"/>
 	  <title> horizontal</title>
 	  <line stroke-linecap="undefined" stroke-linejoin="undefined"
-		id="top_line" y2="5%" x2="5%" y1="5%" x1="95%"
+		id="topFret" y2="3%" x2="5%" y1="3%" x1="95%"
 		stroke-width="1.5" stroke="#000" fill="none"/>
 	  <line stroke-linecap="undefined" stroke-linejoin="undefined"
-		id="bottom_line" y2="95%" x2="5%" y1="95%" x1="95%"
+		id="bottomFret" y2="95%" x2="5%" y1="95%" x1="95%"
 		stroke-width="1.5" stroke="#000" fill="none"/>
 	</g>
       </svg>
@@ -71,7 +71,31 @@
 	    super.ready();
 	    console.log("ready");
 	    console.log(this.chord);
-	    this._findNumberOfFrets(this.chord);
+	    this._drawFretBoard();
+	    
+	}
+
+	_drawNotes() {
+	    
+	}
+	
+	_drawFretBoard() {
+	    const [minFret, maxFret] = this._findNumberOfFrets(this.chord);
+	    console.log(minFret, maxFret);
+	    if(minFret===0) { this._drawZeroFret()};
+
+	    for(var fret=minFret+1; fret<maxFret; ++fret){
+		var newFret = this.$.bottomFret.cloneNode(false);
+		newFret.setAttribute("id", "fret"+fret);
+		var yPos = ((fret-minFret)/maxFret)*0.95*100;
+		newFret.setAttribute("y1", ""+yPos+"%");
+		newFret.setAttribute("y2", ""+yPos+"%");		
+		this.$.fretBoardSvg.insertBefore(newFret, this.$.bottomFret);
+	    }
+	}
+
+	_drawZeroFret() {
+	    this.$.topFret.setAttribute("stroke-width", 5);
 	}
 	
 	_findNumberOfFrets(chord) {
@@ -86,7 +110,7 @@
 		    }
 		}
 	    }
-	    console.log(minFret, maxFret);
+	    return [minFret, maxFret];
 	}
 	
 	static get properties() {

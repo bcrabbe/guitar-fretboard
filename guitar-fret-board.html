@@ -8,7 +8,6 @@
       }
     </style>
     
-    <h2>hello [[prop1]]</h2>
     <div>
       <svg xmlns="http://www.w3.org/2000/svg">
 	<g>
@@ -45,7 +44,7 @@
 		stroke-width="1.5" stroke="#000" fill="none"/>
 	  <title> horizontal</title>
 	  <line stroke-linecap="undefined" stroke-linejoin="undefined"
-		id="topFret" y2$="[[_topFretY]]" x2="4.8%" y1$="[[_topFretY]]" x1="95.2%"
+		id="fret0" y2$="[[_topFretY]]" x2="4.8%" y1$="[[_topFretY]]" x1="95.2%"
 		stroke-width="1.5" stroke="#000" fill="none"/>
 	  <line stroke-linecap="undefined" stroke-linejoin="undefined"
 		id="bottomFret"  y2$="[[_bottomFretY]]" x2="5%" y1$="[[_bottomFretY]]" x1="95%"
@@ -77,28 +76,49 @@
 	    console.log("ready");
 	    console.log(this.chord);
 	    this._drawFretBoard();
-	    this._drawNotes(this.chord);
+	    this._drawChord(this.chord);
 	    
 	}
 
-	_drawNotes(chord) {
+	_drawChord(chord) {
 	    for (var string in chord) {
 		if (chord.hasOwnProperty(string)) {
 		    var fret = chord[string].fret;
 		    if(fret==="X") {
 			this._markStringNotPlayed(string);
 		    } else {
-			
+			this._drawNote(string, fret);
 		    }
 		}
 	    }
 	}
 
+	_drawNote(string, fret){
+	    var circle = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+	    circle.setAttribute('cx', parseFloat(this.$[string].getAttribute('x1'))+"%");
+	    if(fret===0) {
+		circle.setAttribute('cy', parseFloat(this.$.fret0.getAttribute('y1')) -
+				  3 + '%');
+	    } else {
+		var fretAbove = this.shadowRoot.querySelector("#fret"+(fret-1));
+		var fretBelow = this.shadowRoot.querySelector("#fret"+(fret));
+		circle.setAttribute('cy', (parseFloat(fretAbove.getAttribute('y1')) +
+				  (parseFloat(fretBelow.getAttribute('y1')) -
+				   parseFloat(fretAbove.getAttribute('y1')))/2) +"%");
+	    }
+	    circle.setAttribute('stroke', '#000');
+	    circle.setAttribute('stroke-width', 1.5);
+	    circle.setAttribute('fill', '#fff');
+	    circle.setAttribute('r', "4%")
+
+	    this.$.fretBoardSvg.appendChild(circle);
+	}
+	
 	_markStringNotPlayed(string) {
 	    var text = document.createElementNS('http://www.w3.org/2000/svg', 'text');
 	    text.setAttribute('x', parseFloat(this.$[string].getAttribute('x1')) -
 			      1.4 + '%');
-	    text.setAttribute('y', parseFloat(this.$.topFret.getAttribute('y1')) -
+	    text.setAttribute('y', parseFloat(this.$.fret0.getAttribute('y1')) -
 			      3 + '%');//adjust for width of text
 		text.setAttribute('fill', '#000');
 	    text.textContent = "X";
@@ -107,13 +127,13 @@
 	
 	_drawFretBoard() {
 	    const [minFret, maxFret] = this._findNumberOfFrets(this.chord);
-	    console.log(minFret, maxFret);
+	    this.minFret = minFret;
+	    this.maxFret = maxFret;
 	    if(minFret===0) { this._drawZeroFret()};
-
-	    for(var fret=minFret+1; fret<maxFret; ++fret) {
+	    for(var fret=minFret+1; fret<=maxFret; ++fret) {
 		var newFret = this.$.bottomFret.cloneNode(false);
 		newFret.setAttribute("id", "fret"+fret);
-		var yPos = ((fret-minFret)/maxFret)*
+		var yPos = ((fret-minFret)/(maxFret+1))*
 		    (parseFloat(this._bottomFretY)-parseFloat(this._topFretY))+
 		    parseFloat(this._topFretY) + '%';
 		newFret.setAttribute("y1", yPos);
@@ -128,7 +148,7 @@
 	}
 	
 	_drawZeroFret() {
-	    this.$.topFret.setAttribute("stroke-width", 5);
+	    this.$.fret0.setAttribute("stroke-width", 5);
 	}
 	
 	_findNumberOfFrets(chord) {
@@ -162,6 +182,12 @@
 		    value: function() {
 			return this.offsetHeight;
 		    }
+		},
+		_minFret: {
+		    type: Number
+		},
+		_maxFret: {
+		    type: Number
 		},
 		_topFretY: {
 		    type: String,

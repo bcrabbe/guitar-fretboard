@@ -3,13 +3,13 @@
 <dom-module id="guitar-fret-board">
   <template>
     <style>
-      :host {
-        display: block;
-      }
+     :host {
+       display: block;
+     }
     </style>
-    
+
     <div>
-      <svg xmlns="http://www.w3.org/2000/svg">
+      <svg viewBox="0 0 200 350" xmlns="http://www.w3.org/2000/svg">
 	<g>
 	  <title>background</title>
 	  <rect fill="#fff" id="canvas_background" height="100%" width="100%" y="-1" x="-1"/>
@@ -20,188 +20,186 @@
 	<g id="fretBoardSvg">
 	  <title>vertical</title>
 	  <line id="str6" y1$="[[_topFretY]]" y2$="[[_bottomFretY]]"
-		x2="5%" x1="5%"
-		stroke-width="1.5" stroke-linecap="undefined"
+		x2="10%" x1="10%"
+		stroke-width="0.5%" stroke-linecap="undefined"
 		stroke-linejoin="undefined" stroke="#000"/>
-	  <line id="str5" y1$="[[_topFretY]]" y2$="[[_bottomFretY]]" 
-		x2="23%" x1="23%"
-		stroke-width="1.5" stroke="#000" fill="none"/>
+	  <line id="str5" y1$="[[_topFretY]]" y2$="[[_bottomFretY]]"
+		x2="26%" x1="26%"
+		stroke-width="0.5%" stroke="#000" fill="none"/>
 	  <line id="str4" y2$="[[_bottomFretY]]" y1$="[[_topFretY]]"
-		x2="41%" x1="41%"
+		x2="42%" x1="42%"
 		stroke-linecap="undefined" stroke-linejoin="undefined"
-		stroke-width="1.5" stroke="#000" fill="none"/>
+		stroke-width="0.5%" stroke="#000" fill="none"/>
 	  <line id="str3" y2$="[[_topFretY]]" y1$="[[_bottomFretY]]"
-		x2="59%" x1="59%"
+		x2="58%" x1="58%"
 		stroke-linecap="undefined" stroke-linejoin="undefined"
-		stroke-width="1.5" stroke="#000" fill="none"/>
+		stroke-width="0.5%" stroke="#000" fill="none"/>
 	  <line id="str2" y2$="[[_topFretY]]" y1$="[[_bottomFretY]]"
-		x1="77%"  x2="77%"
+		x1="74%"  x2="74%"
 		stroke-linecap="undefined" stroke-linejoin="undefined"
-		stroke-width="1.5" stroke="#000" fill="none"/>
+		stroke-width="0.5%" stroke="#000" fill="none"/>
 	  <line id="str1" y2$="[[_topFretY]]" y1$="[[_bottomFretY]]"
-		x1="95%" x2="95%" 
+		x1="90%" x2="90%"
 		stroke-linecap="undefined" stroke-linejoin="undefined"
-		stroke-width="1.5" stroke="#000" fill="none"/>
+		stroke-width="0.5%" stroke="#000" fill="none"/>
 	  <title> horizontal</title>
 	  <line stroke-linecap="undefined" stroke-linejoin="undefined"
-		id="fret0" y2$="[[_topFretY]]" x2="4.8%" y1$="[[_topFretY]]" x1="95.2%"
-		stroke-width="1.5" stroke="#000" fill="none"/>
+		id="fret0" y2$="[[_topFretY]]" x2="9.8%" y1$="[[_topFretY]]" x1="90.2%"
+		stroke-width="0.5%" stroke="#000" fill="none"/>
 	  <line stroke-linecap="undefined" stroke-linejoin="undefined"
-		id="bottomFret"  y2$="[[_bottomFretY]]" x2="5%" y1$="[[_bottomFretY]]" x1="95%"
-		stroke-width="1.5" stroke="#000" fill="none"/>
+		id="bottomFret"  y2$="[[_bottomFretY]]" x2="10%" y1$="[[_bottomFretY]]" x1="90%"
+		stroke-width="0.5%" stroke="#000" fill="none"/>
 	</g>
       </svg>
-    </div>  
+    </div>
   </template>
 
   <script>
-    /**
-     * `guitar-fret-board`
-     * a guitar fret board graphic for displaying chord shapes
-     *
-     * @customElement
-     * @polymer
-     * @demo demo/index.html
-     */
-    class GuitarFretBoard extends Polymer.Element {
+   /**
+    * `guitar-fret-board`
+    * a guitar fret board graphic for displaying chord shapes
+    *
+    * @customElement
+    * @polymer
+    * @demo demo/index.html
+    */
+   class GuitarFretBoard extends Polymer.Element {
 
-	static get is() { return 'guitar-fret-board'; }
-	
-	constructor() {
-	    super();
-	}
-	
-	ready() {
-	    super.ready();
-	    console.log("ready");
-	    console.log(this.chord);
-	    this._drawFretBoard();
-	    this._drawChord(this.chord);
-	    
-	}
+     static get is() { return 'guitar-fret-board'; }
 
-	_drawChord(chord) {
-	    for (var string in chord) {
-		if (chord.hasOwnProperty(string)) {
-		    var fret = chord[string].fret;
-		    if(fret==="X") {
-			this._markStringNotPlayed(string);
-		    } else {
-			this._drawNote(string, fret);
-		    }
-		}
-	    }
-	}
+     constructor() {
+       super();
+     }
 
-	_drawNote(string, fret){
-	    var circle = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
-	    circle.setAttribute('cx', parseFloat(this.$[string].getAttribute('x1'))+"%");
-	    if(fret===0) {
-		circle.setAttribute('cy', parseFloat(this.$.fret0.getAttribute('y1')) -
-				  3 + '%');
-	    } else {
-		var fretAbove = this.shadowRoot.querySelector("#fret"+(fret-1));
-		var fretBelow = this.shadowRoot.querySelector("#fret"+(fret));
-		circle.setAttribute('cy', (parseFloat(fretAbove.getAttribute('y1')) +
-				  (parseFloat(fretBelow.getAttribute('y1')) -
-				   parseFloat(fretAbove.getAttribute('y1')))/2) +"%");
-	    }
-	    circle.setAttribute('stroke', '#000');
-	    circle.setAttribute('stroke-width', 1.5);
-	    circle.setAttribute('fill', '#fff');
-	    circle.setAttribute('r', "4%")
+     ready() {
+       super.ready();
+       console.log("ready");
+       console.log(this.chord);
+       this._drawFretBoard();
+       this._drawChord(this.chord);
+     }
 
-	    this.$.fretBoardSvg.appendChild(circle);
-	}
-	
-	_markStringNotPlayed(string) {
-	    var text = document.createElementNS('http://www.w3.org/2000/svg', 'text');
-	    text.setAttribute('x', parseFloat(this.$[string].getAttribute('x1')) -
-			      1.4 + '%');
-	    text.setAttribute('y', parseFloat(this.$.fret0.getAttribute('y1')) -
-			      3 + '%');//adjust for width of text
-		text.setAttribute('fill', '#000');
-	    text.textContent = "X";
-	    this.$.fretBoardSvg.appendChild(text);
-	}
-	
-	_drawFretBoard() {
-	    const [minFret, maxFret] = this._findNumberOfFrets(this.chord);
-	    this.minFret = minFret;
-	    this.maxFret = maxFret;
-	    if(minFret===0) { this._drawZeroFret()};
-	    for(var fret=minFret+1; fret<=maxFret; ++fret) {
-		var newFret = this.$.bottomFret.cloneNode(false);
-		newFret.setAttribute("id", "fret"+fret);
-		var yPos = ((fret-minFret)/(maxFret+1))*
-		    (parseFloat(this._bottomFretY)-parseFloat(this._topFretY))+
+     _drawChord(chord) {
+       for (var string in chord) {
+	 if (chord.hasOwnProperty(string)) {
+           chord[string].forEach(note => {
+	     var fret = note.fret;
+	     if(fret==="X") {
+	       this._markStringNotPlayed(string);
+	     } else {
+	       this._drawNote(string, fret);
+	     }
+           });
+	 }
+       }
+     }
+
+     _drawNote(string, fret){
+       var circle = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+       circle.setAttribute('cx', parseFloat(this.$[string].getAttribute('x1'))+"%");
+       if(fret===0) {
+	 circle.setAttribute('cy', parseFloat(this.$.fret0.getAttribute('y1')) -
+			     3 + '%');
+       } else {
+	 var fretAbove = this.shadowRoot.querySelector("#fret"+(fret-1));
+	 var fretBelow = this.shadowRoot.querySelector("#fret"+(fret));
+	 circle.setAttribute('cy', (parseFloat(fretAbove.getAttribute('y1')) +
+				      (parseFloat(fretBelow.getAttribute('y1')) -
+				       parseFloat(fretAbove.getAttribute('y1')))/2) +"%");
+       }
+       circle.setAttribute('stroke', '#000');
+       circle.setAttribute('stroke-width', "0.5%");
+       circle.setAttribute('fill', '#fff');
+       circle.setAttribute('r', "3.5%")
+
+       this.$.fretBoardSvg.appendChild(circle);
+     }
+
+     _markStringNotPlayed(string) {
+       var text = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+       text.setAttribute('x', parseFloat(this.$[string].getAttribute('x1')) -
+			 1.4 + '%');
+       text.setAttribute('y', parseFloat(this.$.fret0.getAttribute('y1')) -
+			 3 + '%');//adjust for width of text
+       text.setAttribute('fill', '#000');
+       text.textContent = "X";
+       this.$.fretBoardSvg.appendChild(text);
+     }
+
+     _drawFretBoard() {
+       const [minFret, maxFret] = this._findNumberOfFrets(this.chord);
+       this.minFret = minFret;
+       this.maxFret = maxFret;
+       if(minFret===0) { this._drawZeroFret()};
+       for(var fret=minFret+1; fret<=maxFret; ++fret) {
+	 var newFret = this.$.bottomFret.cloneNode(false);
+	 newFret.setAttribute("id", "fret"+fret);
+	 var yPos = ((fret-minFret)/(maxFret+1))*
+	 (parseFloat(this._bottomFretY)-parseFloat(this._topFretY))+
 		    parseFloat(this._topFretY) + '%';
-		newFret.setAttribute("y1", yPos);
-		newFret.setAttribute("y2", yPos);		
-		this.$.fretBoardSvg.insertBefore(newFret, this.$.bottomFret);
-	    }
-	}
+	 newFret.setAttribute("y1", yPos);
+	 newFret.setAttribute("y2", yPos);
+	 this.$.fretBoardSvg.insertBefore(newFret, this.$.bottomFret);
+       }
+     }
 
-	// adds two string of the the form a% b% -> a+b% 
-	_addPercentStrings(str1, str2) {
-	    return parseFloat(str1) + parseFloat(str2) + '%';
-	}
-	
-	_drawZeroFret() {
-	    this.$.fret0.setAttribute("stroke-width", 5);
-	}
-	
-	_findNumberOfFrets(chord) {
-	    var minFret=0, maxFret=1;
-	    for (var string in chord) {
-		if (chord.hasOwnProperty(string)) {
-		    if(chord[string].fret!="X") {
-			maxFret = chord[string].fret > maxFret ?
-			    chord[string].fret : maxFret;
-			minFret = chord[string].fret < minFret ?
-			    chord[string].fret : minFret;
-		    }
-		}
-	    }
-	    return [minFret, maxFret];
-	}
-	
-	static get properties() {
-	    return {
-		chord: {
-		    type: Object
-		},
-		width: {
-		    type: Number,
-		    value: function() {
-			return this.offsetWidth;
-		    }
-		},
-		height: {
-		    type: Number,
-		    value: function() {
-			return this.offsetHeight;
-		    }
-		},
-		_minFret: {
-		    type: Number
-		},
-		_maxFret: {
-		    type: Number
-		},
-		_topFretY: {
-		    type: String,
-		    value: "10%"
-		},
-		_bottomFretY: {
-		    type: String,
-		    value: "95%"
-		}
-	
-	    };
-	}
-    }
-    
-    window.customElements.define(GuitarFretBoard.is, GuitarFretBoard);
+     _drawZeroFret() {
+       this.$.fret0.setAttribute("stroke-width", "1.5%");
+     }
+
+     _findNumberOfFrets(chord) {
+       var minFret=0, maxFret=1;
+       for (var string in chord) {
+	 if (chord.hasOwnProperty(string)) {
+           chord[string].forEach(note => {
+             if(note.fret!="X") {
+	       maxFret = note.fret > maxFret ?
+		         note.fret : maxFret;
+	       minFret = note.fret < minFret ?
+		         note.fret : minFret;
+             }
+           })
+         }
+       }
+       return [minFret, maxFret];
+     }
+
+     static get properties() {
+       return {
+	 chord: {
+	   type: Object
+	 },
+	 width: {
+	   type: Number,
+	   value: function() {
+	     return this.offsetWidth;
+	   }
+	 },
+	 height: {
+	   type: Number,
+	   value: function() {
+	     return this.offsetHeight;
+	   }
+	 },
+	 _minFret: {
+	   type: Number
+	 },
+	 _maxFret: {
+	   type: Number
+	 },
+	 _topFretY: {
+	   type: String,
+	   value: "10%"
+	 },
+	 _bottomFretY: {
+	   type: String,
+	   value: "95%"
+	 }
+
+       };
+     }
+   }
+
+   window.customElements.define(GuitarFretBoard.is, GuitarFretBoard);
   </script>
 </dom-module>

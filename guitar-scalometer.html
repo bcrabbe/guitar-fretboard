@@ -1,0 +1,133 @@
+<link rel="import" href="../polymer/polymer-element.html">
+<link rel="import" href="guitar-fret-board.html">
+
+<dom-module id="guitar-scalometer">
+  <template>
+    <style>
+     :host {
+       display: block;
+     }
+    </style>
+
+    <div>
+      <guitar-fret-board chord="[[_frets]]"></guitar-fret-board>
+    </div>
+  </template>
+
+  <script>
+   /**
+    * `guitar-scalometer`
+    * a guitar fret board graphic for displaying chord shapes
+    *
+    * @customElement
+    * @polymer
+    * @demo demo/index.html
+    */
+   class GuitarScalometer  extends Polymer.Element {
+
+     static get is() { return 'guitar-scalometer'; }
+
+     constructor() {
+       super();
+
+     }
+
+     ready() {
+       super.ready();
+
+     }
+
+     _getNotesInScale(scale, key) {
+       var notesInScale = [key];
+       var scaleIntervals = this._scales[scale];
+       var semiTonesFromRoot = 0;
+       var rootNoteIndex = this._allNotes.indexOf(key);
+       for(var i=0; i<scaleIntervals.length; ++i) {
+         semiTonesFromRoot += scaleIntervals[i];
+         notesInScale.push(this._allNotes[(rootNoteIndex+semiTonesFromRoot)%12]);
+       }
+       console.log(notesInScale);
+       return notesInScale;
+     }
+
+     _getFrets(_notesInScale, tuning) {
+       var frets={
+         str6:[],
+         str5:[],
+         str4:[],
+         str3:[],
+         str2:[],
+         str1:[]
+       };
+       for(var stringNum = 6; stringNum>0; --stringNum) {
+         var stringName = "str" + stringNum;
+         var fret = 0;
+         var openNoteIndex = this._allNotes.indexOf(this.tuning[stringName]);
+         while(fret<=12) {
+           var note = this._allNotes[(openNoteIndex + fret)%12];
+           if(_notesInScale.includes(note)){
+             frets[stringName].push({fret:fret, label: note});
+           }
+           ++fret;
+         }
+         console.log(stringName, frets[stringName]);
+       }
+       return frets;
+     }
+
+     static get properties() {
+       return {
+	 scale: {
+	   type: String,
+           value: "Major"
+	 },
+         key: {
+           type: String,
+           value: "E"
+         },
+         tuning: {
+           type: Array,
+           value: function() {
+             return {str6:"E",
+                     str5:"A",
+                     str4:"D",
+                     str3:"G",
+                     str2:"B",
+                     str1:"E"};
+           }
+         },
+         _allNotes: {
+           type: Array,
+           value: function() {
+             return ["A","A#","B","C","C#","D","D#","E","F","F#","G","G#"];
+           }
+         },
+         _scales: {
+           type: Object,
+           value: function() {
+             return {
+               Major: [2,2,1,2,2,2],
+               Blues: [3,2,1,1,3,2]
+             };
+           }
+         },
+         _notesInScale: {
+           type: Array,
+           computed: '_getNotesInScale(scale, key)'
+         },
+         _frets: {
+           type: Object,
+           computed: '_getFrets(_notesInScale, tuning)'
+         }
+
+       }
+
+
+
+     };
+   }
+
+
+   window.customElements.define(GuitarScalometer.is, GuitarScalometer);
+  </script>
+</dom-module>

@@ -11,11 +11,12 @@
     <link rel="import" href="../../iron-demo-helpers/demo-pages-shared-styles.html">
     <link rel="import" href="../../iron-demo-helpers/demo-snippet.html">
     <link rel="import" href="../guitar-fret-board.html">
+    <link rel="import" href="../guitar-scalometer.html">
 
     <custom-style>
       <style is="custom-style" include="demo-pages-shared-styles">
-       guitar-fret-board {
-    	 width: 300px;
+       guitar-fret-board, guitar-scalometer {
+    	 width: 500px;
 	 height:100%;
 
        }
@@ -28,12 +29,20 @@
       <demo-snippet>
         <template>
           <guitar-fret-board chord='{"str6":[{"fret":0}],
-			            "str5":[{"fret":2,"label":"2"}],
-			            "str4":[{"fret":2,"label":"3"}],
-			            "str3":[{"fret":1,"label":"1"}],
-			            "str2":[{"fret":3,"label":"4"},{"fret":2,"label":"4"}],
-			            "str1":[{"fret":0}]}'
-	  ></guitar-fret-board>
+	       "str5":[{"fret":2,"label":"A"}],
+	       "str4":[{"fret":2,"label":"F"}],
+	       "str3":[{"fret":1,"label":"B"}],
+	       "str2":[{"fret":3,"label":"C"},{"fret":2,"label":"4"}],
+	       "str1":[{"fret":0, "label":"O"}]}'
+	       ></guitar-fret-board>
+        </template>
+      </demo-snippet>
+
+
+      <h3>guitar-scalometer guitar-fret-board demo</h3>
+      <demo-snippet>
+        <template>
+          <guitar-scalometer scale='Blues' key='A'></guitar-scalometer>
         </template>
       </demo-snippet>
     </div>

@@ -6,6 +6,12 @@ a guitar fret board graphic for displaying chord shaps
 
 First, make sure you have the [Polymer CLI](https://www.npmjs.com/package/polymer-cli) installed. Then run `polymer serve` to serve your element locally.
 
+## Install Dependancies
+```
+$ bower install
+```
+
+
 ## Viewing Your Element
 
 ```

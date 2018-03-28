@@ -15,34 +15,46 @@
 
     <custom-style>
       <style is="custom-style" include="demo-pages-shared-styles">
-       guitar-fret-board, guitar-scalometer {
-    	 width: 500px;
-	 height:100%;
-
-       }
+      guitar-fret-board {
+    width: 15rem;
+}
       </style>
     </custom-style>
   </head>
   <body>
     <div class="vertical-section-container centered">
-      <h3>Basic guitar-fret-board demo</h3>
+      <h3>Basic chord guitar-fret-board demo</h3>
       <demo-snippet>
         <template>
-          <guitar-fret-board chord='{"str6":[{"fret":0}],
-	       "str5":[{"fret":2,"label":"A"}],
-	       "str4":[{"fret":2,"label":"F"}],
-	       "str3":[{"fret":1,"label":"B"}],
-	       "str2":[{"fret":3,"label":"C"},{"fret":2,"label":"4"}],
-	       "str1":[{"fret":0, "label":"O"}]}'
-	       ></guitar-fret-board>
+          <guitar-fret-board chord='{"str6":[{"fret":"X"}],
+	                            "str5":[{"fret":0}],
+	                            "str4":[{"fret":2,"label":"1"}],
+	                            "str3":[{"fret":2,"label":"1"}],
+	                            "str2":[{"fret":2,"label":"1"}],
+	                            "str1":[{"fret":3, "label":"3"}]}'
+	  ></guitar-fret-board>
+        </template>
+      </demo-snippet>
+
+      <h3>Basic chord guitar-fret-board demo</h3>
+      <demo-snippet>
+        <template>
+          <guitar-fret-board chord='{"str6":[{"fret":5,"label":"1"}],
+	                            "str5":[{"fret":4,"label":"3"}],
+	                            "str4":[{"fret":4,"label":"4"}],
+	                            "str3":[{"fret":3,"label":"2"}],
+	                            "str2":[{"fret":5,"label":"1"}],
+	                            "str1":[{"fret":5, "label":"1"}]}'
+	  ></guitar-fret-board>
         </template>
       </demo-snippet>
 
 
-      <h3>guitar-scalometer guitar-fret-board demo</h3>
+      <h3>Blues scale in A, guitar-fret-board demo</h3>
       <demo-snippet>
         <template>
-          <guitar-scalometer scale='Blues' key='A'></guitar-scalometer>
+          <guitar-fret-board chord=' {"str6":[{"fret":0,"label":"E"},{"fret":3,"label":"G"},{"fret":5,"label":"A"},{"fret":8,"label":"C"},{"fret":10,"label":"D"},{"fret":11,"label":"D#"},{"fret":12,"label":"E"}],"str5":[{"fret":0,"label":"A"},{"fret":3,"label":"C"},{"fret":5,"label":"D"},{"fret":6,"label":"D#"},{"fret":7,"label":"E"},{"fret":10,"label":"G"},{"fret":12,"label":"A"}],"str4":[{"fret":0,"label":"D"},{"fret":1,"label":"D#"},{"fret":2,"label":"E"},{"fret":5,"label":"G"},{"fret":7,"label":"A"},{"fret":10,"label":"C"},{"fret":12,"label":"D"}],"str3":[{"fret":0,"label":"G"},{"fret":2,"label":"A"},{"fret":5,"label":"C"},{"fret":7,"label":"D"},{"fret":8,"label":"D#"},{"fret":9,"label":"E"},{"fret":12,"label":"G"}],"str2":[{"fret":1,"label":"C"},{"fret":3,"label":"D"},{"fret":4,"label":"D#"},{"fret":5,"label":"E"},{"fret":8,"label":"G"},{"fret":10,"label":"A"}],"str1":[{"fret":0,"label":"E"},{"fret":3,"label":"G"},{"fret":5,"label":"A"},{"fret":8,"label":"C"},{"fret":10,"label":"D"},{"fret":11,"label":"D#"},{"fret":12,"label":"E"}]}'
+	  ></guitar-fret-board>
         </template>
       </demo-snippet>
     </div>

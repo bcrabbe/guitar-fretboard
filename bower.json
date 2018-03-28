@@ -3,7 +3,11 @@
   "description": "a guitar fret board graphic for displaying chord shaps",
   "main": "guitar-fret-board.html",
   "dependencies": {
-    "polymer": "Polymer/polymer#^2.0.0"
+    "polymer": "Polymer/polymer#^2.0.0",
+    "paper-dropdown-menu": "^2.1.0",
+    "paper-listbox": "^2.1.0",
+    "paper-item": "^2.1.0",
+    "neon-animation": "^2.2.1"
   },
   "devDependencies": {
     "iron-demo-helpers": "PolymerElements/iron-demo-helpers#^2.0.0",

@@ -1,6 +1,6 @@
 # \<guitar-fret-board\>
 
-a guitar fret board graphic for displaying chord shaps
+a guitar fret board graphic for displaying notes and chord shapes
 
 ## Install the Polymer-CLI
 
@@ -10,7 +10,6 @@ First, make sure you have the [Polymer CLI](https://www.npmjs.com/package/polyme
 ```
 $ bower install
 ```
-
 
 ## Viewing Your Element
 

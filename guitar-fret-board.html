@@ -50,8 +50,18 @@
   <script>
    /**
     * `guitar-fret-board`
-    * a guitar fret board graphic for displaying chord shapes
-    *
+    * A guitar fret board SVG graphic for displaying chord shapes scales or notes.
+    * Just provide it with a chord object e.g. :
+    * ```
+    * chord = {
+    *  str6: [{fret: "X"}],
+    *  str5: [{fret: 0}],
+    *  str4: [{fret: 2}],
+    *  str3: [{fret: 2}],
+    *  str2: [{fret: 2}],
+    *  str1: [{fret: 0}],
+    * }
+    *```
     * @customElement
     * @polymer
     * @demo demo/index.html
@@ -152,7 +162,6 @@
 	                         (parseFloat(this._bottomFretY)-parseFloat(this._topFretY))+
 		                parseFloat(this._topFretY) + '%'));
        }
-       console.log(minFret, maxFret);
        for(var fret=minFret+1; fret<=maxFret; ++fret) {
 	 var newFret = this.$.bottomFret.cloneNode(false);
 	 newFret.setAttribute("id", "fret"+fret);
@@ -231,20 +240,23 @@
 
      static get properties() {
        return {
+         /**
+          * Object detailing the frets played on each string of the guitar.
+          * eg
+          *  ```
+          * chord = {
+          *  str6: [{fret: "X"}],
+          *  str5: [{fret: 0}],
+          *  str4: [{fret: 2}],
+          *  str3: [{fret: 2}],
+          *  str2: [{fret: 2}],
+          *  str1: [{fret: 0}],
+          * }
+          *```
+          * @type {!Object<string, Array<Object<string, (number|string)>>>} 
+          */
 	 chord: {
 	   type: Object
-	 },
-	 width: {
-	   type: Number,
-	   value: function() {
-	     return this.offsetWidth;
-	   }
-	 },
-	 height: {
-	   type: Number,
-	   value: function() {
-	     return this.offsetHeight;
-	   }
 	 },
 	 _minFret: {
 	   type: Number
@@ -268,8 +280,6 @@
            type: String,
            value: "90%"
          }
-
-
        };
      }
    }

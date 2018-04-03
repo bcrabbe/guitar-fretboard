@@ -2,8 +2,8 @@
 [![Published on webcomponents.org](https://img.shields.io/badge/webcomponents.org-published-blue.svg)](https://www.webcomponents.org/element/bcrabbe/guitar-fretboard)
 
 
-a guitar fret board graphic for displaying notes and chord shapes.
-<!--
+ A custom html component, guitar fret board SVG graphic for displaying chord shapes scales or notes. Just provide it with a chord object e.g. :
+ <!--
 ```
 <custom-element-demo>
   <template>
@@ -27,19 +27,9 @@ a guitar fret board graphic for displaying notes and chord shapes.
 
 First, make sure you have the [Polymer CLI](https://www.npmjs.com/package/polymer-cli) installed. Then run `polymer serve` to serve your element locally.
 
-## Install Dependancies
-```
-$ bower install
-```
 
 ## Viewing Your Element
 
 ```
 $ polymer serve
-```
-
-## Running Tests
-
-```
-$ polymer test
 ```

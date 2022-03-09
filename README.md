@@ -14,13 +14,15 @@
 ```
 -->
 ```html
-  <guitar-fret-board chord='{"str6":[{"fret":5,"label":"1"}],
-	                            "str5":[{"fret":7,"label":"3"}],
-	                            "str4":[{"fret":7,"label":"4"}],
-	                            "str3":[{"fret":6,"label":"2"}],
-	                            "str2":[{"fret":5,"label":"1"}],
-	                            "str1":[{"fret":5, "label":"1"}]}'
-	  ></guitar-fret-board>
+<guitar-fret-board
+    chord='{"str6":[{"fret":5,"label":"1"}],
+            "str5":[{"fret":7,"label":"3"}],
+            "str4":[{"fret":7,"label":"4"}],
+            "str3":[{"fret":6,"label":"2"}],
+            "str2":[{"fret":5,"label":"1"}],
+            "str1":[{"fret":5, "label":"1"}]}'
+/>
+
 ```
 
 ## Install the Polymer-CLI
